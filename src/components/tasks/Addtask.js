@@ -2,6 +2,7 @@ import React,{useRef, useState} from 'react'
 import Card from '../UI/Card'
 import classes from './Addtask.module.css'
 import ErrorModal from '../UI/ErrorModal';
+import Button from '../UI/Button';
 const Addtask = (props) => {
     const titleInputRef = useRef();
     const descriptionInputRef = useRef();
@@ -43,7 +44,7 @@ const Addtask = (props) => {
       <label htmlFor='date'>Date</label>
       <input type='date' min='2019-01-01' max="2022-12-31" ref={dateInputRef} />
       
-      <button type="submit">Add Task</button>
+      <Button type="submit">Add Task</Button>
     </form>
     </Card>
     </div>
