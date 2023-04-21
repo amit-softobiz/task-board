@@ -5,7 +5,7 @@ import Button from "../UI/Button";
 const TaskList = (props) => {
   const statusInputRef = useRef();
   const [check, setCheck] = useState(false);
-  const [status, setStatus] = useState("Active");
+  const [status, setStatus] = useState("All");
   const [filteredData, setFilteredData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
 
@@ -17,18 +17,28 @@ const TaskList = (props) => {
     const statusref = statusInputRef.current.value;
     setStatus(statusref);
     setCheck(true);
-    const filtered = originalData.filter(
-      (item) => item.status === event.target.value
-    );
- 
-    setFilteredData(filtered);
   };
+  useEffect(() => {
+    if(status !== "All"){
+      const filtered = originalData.filter(
+        (item) => item.status === status
+      );
+      setFilteredData(filtered);
+    }
+    else{
+      setFilteredData(originalData)
+    }
+  }, [status])
   const handleDelete = (id) => {
     const updatedTasks = originalData.filter((task) => task.id !== id);
     setOriginalData(updatedTasks);
     setFilteredData(updatedTasks);
   };
-  
+  const handleUpdate = (id) =>{
+    // const updateTask = originalData.filter((task) => task.id === id);
+    props.onUpdateTask(id);
+
+  }
 
   return (
     <Card className={classes.tasks}>
@@ -38,6 +48,7 @@ const TaskList = (props) => {
         onChange={filterStatusHandler}
         ref={statusInputRef}
       >
+        <option value="All">All</option>
         <option value="Active">Active</option>
         <option value="In Progress">In Progress</option>
         <option value="Complete">Complete</option>
@@ -46,18 +57,20 @@ const TaskList = (props) => {
       {check ? (
         <ul key={props.id}>
           {filteredData.map((task) => (
-            <li>
+            <li key={task.id}>
               <b>{task.title}</b> {task.status} {task.description} {task.date}{" "}
-              <Button>update</Button> <Button onClick={() => handleDelete(task.id)}>remove</Button>
+              <Button onClick={() => handleUpdate(task.id)}>update</Button>{" "}
+              <Button onClick={() => handleDelete(task.id)}>remove</Button>
             </li>
           ))}
         </ul>
       ) : (
         <ul key={props.id}>
           {originalData.map((task) => (
-            <li>
+            <li key={task.id}>
               <b>{task.title}</b> {task.status} {task.description} {task.date}{" "}
-              <Button>update</Button> <Button onClick={() => handleDelete(task.id)}>remove</Button>
+              <Button onClick={() => handleUpdate(task.id)}>update</Button>{" "}
+              <Button onClick={() => handleDelete(task.id)}>remove</Button>
             </li>
           ))}
         </ul>

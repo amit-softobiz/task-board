@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Addtask from "./components/tasks/Addtask";
-
+import './assets/styles/styles.css'
 import TaskList from "./components/tasks/TaskList";
 const data = [
   {title: 'TodayTask', status: 'Active', description: 'change pic 1', date: '2022-12-03', id: '0.40440185400075945'},
@@ -10,16 +10,22 @@ const data = [
 ];
 function App() {
   const [taskList, setTaskList] = useState(data);
+  const [updatetask,setupdateTask]= useState();
 
   const addTaskHandler = (Ttitle,Tstatus,Tdescription,Tdate)=>{
     setTaskList((prevUsersList)=>{
       return [...prevUsersList, {title:Ttitle,status:Tstatus,description:Tdescription,date:Tdate ,id:Math.random().toString()}];
     });
   };
+  const getupdatedData = (id)=>{
+    const updateTask = taskList.filter((task) => task.id === id);
+    // console.log("ddddddddddddd",updateTask[0]);
+    setupdateTask(updateTask[0]);
+  }
   return (
     <div>
-      <Addtask onAddTask={addTaskHandler}/>
-      <TaskList tasks={taskList}/>
+      <Addtask onAddTask={addTaskHandler} updateddata= {updatetask}/>
+      <TaskList tasks={taskList} onUpdateTask={getupdatedData}/>
     </div>
   );
 }
