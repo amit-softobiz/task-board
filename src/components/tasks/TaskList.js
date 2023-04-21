@@ -7,8 +7,11 @@ const TaskList = (props) => {
   const [check, setCheck] = useState(false);
   const [status, setStatus] = useState("Active");
   const [filteredData, setFilteredData] = useState([]);
-  const [originalData, setOriginaldata] = useState(props.tasks);
-  useEffect(() => {}, []);
+  const [originalData, setOriginalData] = useState([]);
+
+  useEffect(() => {
+    setOriginalData(props.tasks);
+  }, [props.tasks]);
 
   const filterStatusHandler = (event) => {
     const statusref = statusInputRef.current.value;
@@ -22,7 +25,7 @@ const TaskList = (props) => {
   };
   const handleDelete = (id) => {
     const updatedTasks = originalData.filter((task) => task.id !== id);
-    setOriginaldata(updatedTasks);
+    setOriginalData(updatedTasks);
     setFilteredData(updatedTasks);
   };
   
