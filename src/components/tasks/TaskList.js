@@ -1,37 +1,46 @@
-import React,{useRef,useState} from 'react'
+import React,{useRef,useState,useEffect} from 'react'
 import Card from '../UI/Card'
 import classes from './TaskList.module.css'
+
 const TaskList = (props) => {
     const statusInputRef = useRef();
-    const [status, setStatus] = useState();
+    const [check,setCheck]= useState(false);
+    const [status, setStatus] = useState('Active');
+    const [filteredData, setFilteredData] = useState([]);
+    useEffect(()=>{
+
+    },[])
+
     const filterStatusHandler = (event)=>{
         const statusref=statusInputRef.current.value;
         setStatus(statusref);
+        setCheck(true);
+        const filtered = props.tasks.filter(item => item.status === event.target.value);
+        setFilteredData(filtered);
     }    
-    const getTasksByStatus = (status) =>{
-    props.tasks.filter(task => task.status === status);
-    console.log()
-    }
 
 
   return (
     <Card className = {classes.tasks}>
-
-          <select id="status" value="Active" onChange={filterStatusHandler} ref={statusInputRef}>
-            <option value="active">Active</option>
-            <option value="inprogress">In Progress</option>
-            <option value="complete">Complete</option>
+          <select id="status" value={status} onChange={filterStatusHandler} ref={statusInputRef}>
+            <option value="Active">Active</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Complete">Complete</option>
           </select>
 
-    <ul key={props.id}>
-      {props.tasks.map(task =>(
-        
-
+          {check ? <ul key={props.id}>
+      {filteredData.map(task =>(
       <li>
-          {task.title}   {task.status}   {task.description}   {task.date}
+          <b>{task.title}</b>   {task.status}   {task.description}   {task.date}
       </li>
       ))}
-    </ul>
+    </ul>:  <ul key={props.id}>
+      {props.tasks.map(task =>(
+      <li>
+          <b>{task.title}</b>   {task.status}   {task.description}   {task.date}
+      </li>
+      ))}
+    </ul>}
     </Card>
   )
 }
