@@ -19,26 +19,21 @@ const TaskList = (props) => {
     setCheck(true);
   };
   useEffect(() => {
-    if(status !== "All"){
-      const filtered = originalData.filter(
-        (item) => item.status === status
-      );
+    if (status !== "All") {
+      const filtered = originalData.filter((item) => item.status === status);
       setFilteredData(filtered);
+    } else {
+      setFilteredData(originalData);
     }
-    else{
-      setFilteredData(originalData)
-    }
-  }, [status])
+  }, [status]);
   const handleDelete = (id) => {
     const updatedTasks = originalData.filter((task) => task.id !== id);
     setOriginalData(updatedTasks);
     setFilteredData(updatedTasks);
   };
-  const handleUpdate = (id) =>{
-    // const updateTask = originalData.filter((task) => task.id === id);
+  const handleUpdate = (id) => {
     props.onUpdateTask(id);
-
-  }
+  };
 
   return (
     <Card className={classes.tasks}>

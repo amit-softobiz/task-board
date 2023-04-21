@@ -93,9 +93,11 @@ const Addtask = (props) => {
             <option value="In Progress">In Progress</option>
             <option value="Complete">Complete</option>
           </select>{" "}
-          {newupdate ?(<Button type="submit">Yes, Update</Button>):(<Button type="submit">Add Task</Button>)}
-           {" "}
-          <Button>Cancel</Button>
+          {newupdate ? (
+            <Button type="submit">Yes, Update</Button>
+          ) : (
+            <Button type="submit">Add Task</Button>
+          )}{" "}
         </form>
       </Card>
     </div>

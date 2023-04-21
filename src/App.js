@@ -52,9 +52,7 @@ function App() {
     });
   };
   const updateTaskHandler = (Utitle, Ustatus, Udescription, Udate) => {
-    // const updateTask = taskList.map((task) => task.id === id);
-    console.log("from updated ", Utitle, Ustatus, Udescription, Udate, id);
-    const newTaskList= taskList.filter((task) => task.id !== id);
+    const newTaskList = taskList.filter((task) => task.id !== id);
     setTaskList(newTaskList);
     setTaskList((prevUsersList) => {
       return [
@@ -68,34 +66,10 @@ function App() {
         },
       ];
     });
-    console.log("button",newTaskList);
-    // const newtaskList = taskList.map((task)=>{
-    //   if (task.id === id) {
-
-    //   }
-    // })
-
-    // const dddd = taskList.map((task) => {
-    //   if (task.id === id) {
-    //     return [
-    //     ...task,
-    //     {
-    //       title: Utitle,
-    //       status: Ustatus,
-    //       description: Udescription,
-    //       date: Udate,
-    //       id: Math.random().toString(),
-    //     },
-    //   ];
-    //   }
-    //   return task;
-    // });
-    // setTaskList(dddd);
   };
   const getupdatedData = (id) => {
     setId(id);
     const updateTask = taskList.filter((task) => task.id === id);
-    // console.log("ddddddddddddd",updateTask[0]);
     setupdateTask(updateTask[0]);
   };
   return (
