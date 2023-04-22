@@ -11,6 +11,8 @@ const Addtask = (props) => {
   const [error, setError] = useState();
   const [newupdate, setNewUpdate] = useState();
   const [success, setSuccess] = useState(false);
+  const [check, setCheck] = useState(false);
+  const [status, setStatus] = useState('Active');
   useEffect(() => {
     setNewUpdate(props.updateddata);
   }, [props.updateddata]);
@@ -33,12 +35,20 @@ const Addtask = (props) => {
       });
       return;
     }
-    props.onAddTask(titleref, status, descriptionref, dateref);
-    props.onGetupdatedata(titleref, statusref, descriptionref, dateref);
+    if(newupdate){
+      props.onGetupdatedata(titleref, statusref, descriptionref, dateref)
+    }else(
+      props.onAddTask(titleref, status, descriptionref, dateref)
+    )
     setSuccess(true);
     titleInputRef.current.value = "";
     descriptionInputRef.current.value = "";
     dateInputRef.current.value = "";
+  };
+  const filterStatusHandler = (event) => {
+    const statusref = statusInputRef.current.value;
+    setStatus(statusref);
+    setCheck(true);
   };
 
   const errorHandler = () => {
@@ -88,7 +98,7 @@ const Addtask = (props) => {
             ref={dateInputRef}
           />
           <label htmlFor="status">Status</label>
-          <select id="status" value="Active" ref={statusInputRef}>
+          <select id="status" value={status} onChange={filterStatusHandler} ref={statusInputRef}>
             <option value="Active">Active</option>
             <option value="In Progress">In Progress</option>
             <option value="Complete">Complete</option>

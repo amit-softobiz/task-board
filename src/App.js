@@ -56,7 +56,6 @@ function App() {
     setTaskList(newTaskList);
     setTaskList((prevUsersList) => {
       return [
-        ...prevUsersList,
         {
           title: Utitle,
           status: Ustatus,
@@ -64,6 +63,7 @@ function App() {
           date: Udate,
           id: Math.random().toString(),
         },
+        ...prevUsersList
       ];
     });
   };
