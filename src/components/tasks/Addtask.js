@@ -10,12 +10,17 @@ const Addtask = (props) => {
   const statusInputRef = useRef();
   const [error, setError] = useState();
   const [newupdate, setNewUpdate] = useState();
+  const [btnChange,setBtnChange] = useState(true);
   const [success, setSuccess] = useState(false);
-  const [check, setCheck] = useState(false);
   const [status, setStatus] = useState('Active');
   useEffect(() => {
     setNewUpdate(props.updateddata);
   }, [props.updateddata]);
+  useEffect(()=>{
+    if(newupdate){
+      setBtnChange(true);
+    }
+  },[newupdate]);
   const addUserHandler = (event) => {
     const titleref = titleInputRef.current.value;
     const status = "Active";
@@ -37,6 +42,7 @@ const Addtask = (props) => {
     }
     if(newupdate){
       props.onGetupdatedata(titleref, statusref, descriptionref, dateref)
+      setNewUpdate(null);
     }else(
       props.onAddTask(titleref, status, descriptionref, dateref)
     )
@@ -48,7 +54,6 @@ const Addtask = (props) => {
   const filterStatusHandler = (event) => {
     const statusref = statusInputRef.current.value;
     setStatus(statusref);
-    setCheck(true);
   };
 
   const errorHandler = () => {
@@ -57,12 +62,14 @@ const Addtask = (props) => {
   const handleClose = () => {
     setSuccess(false);
   };
+
   return (
     <div>
       {success ? (
         <div className="outer-wrapper" onClick={handleClose}>
           <div className="inner-wrapper">
             <p className="text-message">Task Added Successfully!!!</p>
+            <Button>Close</Button>
           </div>
         </div>
       ) : null}
@@ -79,20 +86,20 @@ const Addtask = (props) => {
           <input
             id="title"
             type="text"
-            placeholder={newupdate?.title}
+            placeholder={newupdate?.title ? newupdate.title: "title"}
             ref={titleInputRef}
           />
           <label htmlFor="description">Description</label>
           <input
             id="description"
             type="text"
-            placeholder={newupdate?.description}
+            placeholder={newupdate?.description ? newupdate.description: "description"}
             ref={descriptionInputRef}
           />
           <label htmlFor="date">Date</label>
           <input
             type="date"
-            placeholder={newupdate?.date}
+            placeholder={newupdate?.date ? newupdate.date: "date"}
             min="2019-01-01"
             max="2022-12-31"
             ref={dateInputRef}
@@ -103,11 +110,12 @@ const Addtask = (props) => {
             <option value="In Progress">In Progress</option>
             <option value="Complete">Complete</option>
           </select>{" "}
-          {newupdate ? (
-            <Button type="submit">Yes, Update</Button>
+          {btnChange && newupdate ? (
+            <Button type="submit" onClick={()=>{setBtnChange(false)}}>Yes, Update</Button>
           ) : (
             <Button type="submit">Add Task</Button>
           )}{" "}
+
         </form>
       </Card>
     </div>
